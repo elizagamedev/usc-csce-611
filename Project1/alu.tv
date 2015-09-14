@@ -1,0 +1,5 @@
+// vector format:
+// a_b_shamt(zero-padded to 8 bits)_op_hi_lo_zero(padded to 4 bits)
+// test bitwise AND
+0F0F0F0F_FFFFFFFF_00_0_00000000_0F0F0F0F_0
+xxxx
