@@ -1,0 +1,17 @@
+*~
+*.bak
+work/
+simulation/
+incremental_db/
+db/
+transcript
+*.wlf
+*.pin
+*.qpf
+*.qsf
+*.qws
+*.sof
+*.rpt
+*.summary
+*.done
+*.jdi
