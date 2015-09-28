@@ -1,0 +1,15 @@
+// first parameter: number of cycles to delay
+
+// second parameter:
+//     0 = write, read, fail if equal
+//     1 = write, read, fail if not equal
+
+// third parameter: address of register
+// fourth parameter: read port
+// fifth parameter: data to write and verify
+
+2_1_03_0_00000001 // step 1
+2_1_1E_0_01234567 // steps 2 & 3
+2_0_00_0_77777777 // step 4
+1_1_06_0_0F0F0F0F // step 5
+1_1_06_1_0F0F0F0F // step 6
