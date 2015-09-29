@@ -1,7 +1,7 @@
 module regfile32x32(input clk, we,
                     input [4:0] readaddr1, readaddr2, writeaddr,
                     input [31:0] writedata,// reg30,
-                    output reg [31:0] readdata1, readdata2);
+                    output reg [31:0] readdata1, readdata2;
     reg [31:0] registers [30:0];
 
     always @(posedge clk) begin
