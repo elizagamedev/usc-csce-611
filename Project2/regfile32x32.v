@@ -1,5 +1,5 @@
-module regfile32x32(input clk, we,
-                    input [4:0] readaddr1, readaddr2, writeaddr,
+module regfile32x32(input [4:0] readaddr1, readaddr2, writeaddr,
+                    input clk, we,                    
                     input [31:0] writedata, reg30_in,
                     output reg [31:0] readdata1, readdata2, reg30_out);
     reg [31:0] mem[30:0];
