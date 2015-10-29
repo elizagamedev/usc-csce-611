@@ -9,7 +9,7 @@ module de2(input CLOCK_50,
            output reg [6:0] HEX6,
            output reg [6:0] HEX7,
            output reg [17:0] LEDR);
-    
+
     wire [31:0] readdata1, readdata2, reg30;
 
     sevenseg dig0(reg30[3:0], HEX0);

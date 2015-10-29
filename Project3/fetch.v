@@ -8,7 +8,7 @@ module fetch(input clk, rst, stall_EX,
     initial begin
         $readmemh("hexcode.txt", mem, 0, 1023);
     end
-    
+
     always @(posedge clk, posedge rst) begin
         if (stall_EX || rst) begin
             instruction_EX = 32'b0;

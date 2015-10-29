@@ -4,11 +4,11 @@ module testbench();
 
     reg clk;
     reg rst;
-    
+
     // inputs
     reg [3:0] pc_src_EX;
     reg [3:0] stall_EX;
-    
+
     // outputs
     wire [31:0] instruction_EX;
     wire [9:0] PC_FETCH;
@@ -31,7 +31,7 @@ module testbench();
 
     always @(negedge clk) begin
         {PC_FETCH_expect, instruction_EX_expect, pc_src_EX, stall_EX} = testvectors[vectornum];
-        
+
         if (instruction_EX_expect[9:0] != instruction_EX && PC_FETCH_expect[9:0] != PC_FETCH) begin
             $display("error: vector %d (expected instruction %08x, PC_FETCH %03x; got instruction %08x, PC_FETCH %03x)", vectornum, instruction_EX_expect, PC_FETCH_expect, instruction_EX, PC_FETCH);
         end

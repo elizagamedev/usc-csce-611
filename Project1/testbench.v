@@ -38,7 +38,7 @@ module testbench();
     end
 
     // check results on falling edge of clk
-    always @(negedge clk) begin	
+    always @(negedge clk) begin
         if (hi !== hi_expected_0 || lo !== lo_expected_0 || zero !== zero_expected_0) begin
             $display("Error: a = %08x, b = %08x, shamt = %d, op = %x : hi = %08x, lo = %08x, zero = %d : t = %d : entry = %d", a_0, b_0, shamt_0, op_0, hi, lo, zero, $time, ($time - 45) / 10);
             errors = errors + 1;
