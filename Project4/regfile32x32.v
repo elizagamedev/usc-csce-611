@@ -4,6 +4,11 @@ module regfile32x32(input [4:0] readaddr1, readaddr2, writeaddr,
                     output reg [31:0] readdata1, readdata2);
     reg [31:0] mem[30:0];
 
+    initial begin
+        mem[1-1] <= 11;
+        mem[2-1] <= 17;
+    end
+
     always @(posedge clk) begin
         if (we) begin
             if (writeaddr > 0 && writeaddr < 32)

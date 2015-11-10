@@ -6,7 +6,7 @@ module fetch(input clk, rst, stall_EX,
     // instruction memory
     reg [31:0] mem [1023:0];
     initial begin
-        $readmemh("hexcode.txt", mem, 0, 1023);
+        $readmemh("test_program1.txt", mem, 0, 1023);
     end
 
     always @(posedge clk, posedge rst) begin
@@ -22,8 +22,8 @@ module fetch(input clk, rst, stall_EX,
         case (pc_src_EX)
         0: PC_FETCH = PC_FETCH + 1;
         1: PC_FETCH = branch_addr_EX;
-        2: PC_FETCH = jtype_addr_EX; //TODO: ask dr bakos
-        3: PC_FETCH = reg_addr_EX; //TODO: as above
+        2: PC_FETCH = jtype_addr_EX;
+        3: PC_FETCH = reg_addr_EX;
         endcase
     end
 endmodule

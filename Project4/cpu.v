@@ -1,19 +1,27 @@
 module cpu(input clk, input rst);
 
-    // inputs
-    reg [3:0] pc_src_EX;
-    reg stall_EX;
-
-    // outputs
-    wire [31:0] instruction_EX;
+    // fetch inputs
     wire [9:0] PC_FETCH;
 
+    // execute inputs
+    wire [31:0] instruction_EX;
+
+    // execute outputs
+    wire stall_EX;
+    wire [9:0] branch_addr_EX, jtype_addr_EX, reg_addr_EX;
+    wire [1:0] pc_src_EX;
+
     fetch fetch(.clk(clk), .rst(rst), .stall_EX(stall_EX),
-                .branch_addr_EX(instruction_EX[9:0] + PC_FETCH),
-                .jtype_addr_EX(instruction_EX[9:0]),
-                .reg_addr_EX(10'd1),
+                .branch_addr_EX(10'bX),
+                .jtype_addr_EX(10'bX),
+                .reg_addr_EX(10'bX),
                 .pc_src_EX(pc_src_EX),
                 .instruction_EX(instruction_EX),
                 .PC_FETCH(PC_FETCH));
-    execute execute(clk, instruction_EX);
+    execute execute(.clk(clk), .instruction_EX(instruction_EX),
+                    .stall_EX(stall_EX),
+                    .branch_addr_EX(branch_addr_EX),
+                    .jtype_addr_EX(jtype_addr_EX),
+                    .reg_addr_EX(reg_addr_EX),
+                    .pc_src_EX(pc_src_EX));
 endmodule
