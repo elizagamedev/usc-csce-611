@@ -21,16 +21,16 @@ module alu (input [31:0] a, b, input [3:0] op, input [4:0] shamt,
             4'b10_1?: lo = $signed(b) >>> shamt; //sra
 
             // comparison operations
-            4'b11_00:
+            4'b11_00: // slt
                 if ($signed(a) < $signed(b))
                     lo = 32'b1;
                 else
-                    lo = 0; // same sign, diff is neg
-            4'b11_??:
+                    lo = 32'b0;
+            4'b11_??: // sltu
                 if ($unsigned(a) < $unsigned(b))
-                    lo = 32'b1; // sltu
+                    lo = 32'b1;
                 else
-                    lo = 0;
+                    lo = 32'b0;
 
             4'b00_00: lo = a & b; // and
             4'b00_01: lo = a | b; // or

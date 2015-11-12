@@ -9,7 +9,7 @@ add wave -noupdate /testbench/cpu/fetch/stall_EX
 add wave -noupdate /testbench/cpu/execute/lo_EX
 add wave -noupdate /testbench/cpu/execute/hi_EX
 add wave -noupdate /testbench/cpu/execute/enhilo_EX
-add wave -noupdate /testbench/cpu/execute/op_EX
+add wave -noupdate -radix binary /testbench/cpu/execute/op_EX
 add wave -noupdate /testbench/cpu/execute/shamt_EX
 add wave -noupdate /testbench/cpu/execute/readdata1_EX
 add wave -noupdate /testbench/cpu/execute/readdata2_EX
@@ -23,10 +23,10 @@ add wave -noupdate /testbench/cpu/execute/regdest_WB
 add wave -noupdate /testbench/cpu/execute/regsel_WB
 add wave -noupdate /testbench/cpu/execute/regwrite_WB
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {45 ns} 0}
+WaveRestoreCursors {{Cursor 1} {79 ns} 0}
 quietly wave cursor active 1
 configure wave -namecolwidth 150
-configure wave -valuecolwidth 100
+configure wave -valuecolwidth 119
 configure wave -justifyvalue left
 configure wave -signalnamewidth 1
 configure wave -snapdistance 10
@@ -39,4 +39,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ns
 update
-WaveRestoreZoom {0 ns} {110 ns}
+WaveRestoreZoom {0 ns} {196 ns}

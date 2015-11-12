@@ -1,0 +1,2 @@
+EP4CE115F29C7
+/usr/local/3rdparty/csce611/CPU_support_files/DE2_115_PS2_DEMO.qsf

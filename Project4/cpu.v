@@ -1,4 +1,4 @@
-module cpu(input clk, input rst);
+module cpu(input clk, input rst, input [31:0] reg29, output [31:0] reg30);
 
     // fetch inputs
     wire [9:0] PC_FETCH;
@@ -23,5 +23,6 @@ module cpu(input clk, input rst);
                     .branch_addr_EX(branch_addr_EX),
                     .jtype_addr_EX(jtype_addr_EX),
                     .reg_addr_EX(reg_addr_EX),
-                    .pc_src_EX(pc_src_EX));
+                    .pc_src_EX(pc_src_EX),
+                    .reg29(reg29), .reg30(reg30));
 endmodule

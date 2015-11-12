@@ -1,8 +1,10 @@
 module execute(input clk,
                input [31:0] instruction_EX,
+               input [31:0] reg29,
                output reg stall_EX,
                output reg [9:0] branch_addr_EX, jtype_addr_EX, reg_addr_EX,
-               output reg [1:0] pc_src_EX);
+               output reg [1:0] pc_src_EX,
+               output [31:0] reg30);
 
     wire [31:0] readdata1_EX, readdata2_EX;
     wire regwrite_EX;
@@ -20,7 +22,8 @@ module execute(input clk,
     regfile32x32 regs(.clk(clk),
                       .readaddr1(instruction_EX[25:21]), .readaddr2(instruction_EX[20:16]),
                       .readdata1(readdata1_EX), .readdata2(readdata2_EX),
-                      .we(regwrite_WB), .writeaddr(regdest_WB), .writedata(regdata_WB));
+                      .we(regwrite_WB), .writeaddr(regdest_WB), .writedata(regdata_WB),
+                      .reg29(reg29), .reg30(reg30));
 
     control_rtype rtype(.function_code(instruction_EX[5:0]), .shamt(instruction_EX[10:6]),
                         .regwrite_EX(regwrite_EX),
