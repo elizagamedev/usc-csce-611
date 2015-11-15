@@ -5,29 +5,23 @@ module fetch(input clk, rst, stall_EX,
              output reg [9:0] PC_FETCH);
     // instruction memory
     reg [31:0] mem [1023:0];
-    initial begin
-        $readmemh("test_program2.txt", mem, 0, 1023);
-    end
+    initial $readmemh("test_program2.txt", mem, 0, 1023);
 
-    always @(posedge clk, posedge rst) begin
-        if (/*stall_EX ||*/ rst) begin
-            instruction_EX = 32'b0;
-            PC_FETCH = 0;
+    always @(posedge clk) begin
+        if (stall_EX || rst) begin
+            instruction_EX <= 32'b0;
+            PC_FETCH <= 0;
         end else begin
             // send the new instruction
-            instruction_EX = mem[PC_FETCH];
+            instruction_EX <= mem[PC_FETCH];
+
+            // set the new PC
+            case (pc_src_EX)
+            0: PC_FETCH <= PC_FETCH + 1;
+            1: PC_FETCH <= branch_addr_EX;
+            2: PC_FETCH <= jtype_addr_EX;
+            3: PC_FETCH <= reg_addr_EX;
+            endcase
         end
-
-        // set the new PC
-        case (pc_src_EX)
-        0: PC_FETCH = PC_FETCH + 1;
-        1: PC_FETCH = branch_addr_EX;
-        2: PC_FETCH = jtype_addr_EX;
-        3: PC_FETCH = reg_addr_EX;
-        endcase
-
-        // wrap around to 0
-        if (mem[PC_FETCH] === 32'bX)
-            PC_FETCH = 0;
     end
 endmodule

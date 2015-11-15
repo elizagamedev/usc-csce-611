@@ -1,21 +1,21 @@
-module regfile32x32(input clk, we,
+module regfile32x32(input clk, rst, we,
                     input [4:0] readaddr1, readaddr2, writeaddr,
                     input [31:0] writedata,
                     input [31:0] reg29,
                     output reg [31:0] readdata1, readdata2,
-                    output reg [31:0] reg30);
+                    output [31:0] reg30);
+
     reg [31:0] mem[30:0];
-
-    initial begin
-        mem[1-1] <= 11;
-        mem[2-1] <= 17;
-
-        mem[10-1] <= 10;
-        mem[11-1] <= 429496730;
-    end
+    assign reg30 = mem[30-1];
 
     always @(posedge clk) begin
-        if (we) begin
+        if (rst) begin
+            mem[1-1] <= 11;
+            mem[2-1] <= 17;
+
+            mem[10-1] <= 10;
+            mem[11-1] <= 429496730;
+        end else if (we) begin
             if (writeaddr > 0 && writeaddr < 32)
                 mem[writeaddr-1] = writedata;
         end
@@ -39,7 +39,5 @@ module regfile32x32(input clk, we,
             readdata2 <= writedata;
         else
             readdata2 <= mem[readaddr2-1];
-
-        reg30 <= mem[30-1];
     end
 endmodule

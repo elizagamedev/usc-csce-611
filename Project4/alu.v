@@ -1,5 +1,5 @@
-module alu (input [31:0] a, b, input [3:0] op, input [4:0] shamt,
-            output reg [31:0] hi, lo, output zero);
+module alu(input [31:0] a, b, input [3:0] op, input [4:0] shamt,
+           output reg [31:0] hi, lo, output zero);
 
     always @(*) begin
         hi = 32'b0;
@@ -37,8 +37,6 @@ module alu (input [31:0] a, b, input [3:0] op, input [4:0] shamt,
             4'b00_10: lo = ~(a | b); // nor
             4'b00_11: lo = a ^ b; // xor
         endcase
-
-
     end
 
     assign zero = (lo == 32'b0) ?  1'b1 : 1'b0;
