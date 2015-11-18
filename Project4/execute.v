@@ -1,4 +1,4 @@
-module execute(input clk,
+module execute(input clk, input rst,
                input [31:0] instruction_EX,
                input [31:0] reg29,
                output reg stall_EX,
@@ -52,16 +52,14 @@ module execute(input clk,
                 lo_WB <= lo_EX;
                 hi_WB <= hi_EX;
             end
-
-            case (regsel_WB)
-            0: regdata_WB <= r_WB;
-            1: regdata_WB <= hi_WB;
-            2: regdata_WB <= lo_WB;
-            endcase
-
-            // set remaining signals
-            stall_EX <= 0;
-            pc_src_EX <= 0;
         end
+    end
+
+    always @(*) begin
+        case (regsel_WB)
+        0: regdata_WB <= r_WB;
+        1: regdata_WB <= hi_WB;
+        2: regdata_WB <= lo_WB;
+        endcase
     end
 endmodule

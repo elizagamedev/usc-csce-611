@@ -18,7 +18,7 @@ module cpu(input clk, input rst, input [31:0] reg29, output [31:0] reg30);
                 .pc_src_EX(pc_src_EX),
                 .instruction_EX(instruction_EX),
                 .PC_FETCH(PC_FETCH));
-    execute execute(.clk(clk), .instruction_EX(instruction_EX),
+    execute execute(.clk(clk), .rst(rst), .instruction_EX(instruction_EX),
                     .stall_EX(stall_EX),
                     .branch_addr_EX(branch_addr_EX),
                     .jtype_addr_EX(jtype_addr_EX),
