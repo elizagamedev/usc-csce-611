@@ -15,7 +15,7 @@ module execute(input clk,
     wire [31:0] hi_EX, lo_EX;
 
     reg regwrite_WB;
-    reg [1:0] regsel_EX;
+    reg [1:0] regsel_WB;
     reg [4:0] regdest_WB;
     reg [31:0] r_WB, hi_WB, lo_WB, regdata_WB;
 
@@ -35,21 +35,19 @@ module execute(input clk,
     alu alu(.op(op_EX), .shamt(shamt_EX), .a(readdata1_EX), .b(readdata2_EX),
             .lo(lo_EX), .hi(hi_EX));
 
-    always @(posedge clk) begin
+    always @(posedge clk, posedge rst) begin
         if (rst) begin
             stall_EX <= 0;
-            branch_addr_EX <= 10'bX;
-            jtype_addr_EX <= 10'bX;
-            reg_addr_EX <= 10'bX;
             pc_src_EX <= 0;
 
             regwrite_WB <= 0;
             regdest_WB <= 0;
             regdata_WB <= 0;
-        else
+        end else begin
             regdest_WB <= instruction_EX[15:11];
             regwrite_WB <= regwrite_EX;
             regsel_WB <= regsel_EX;
+            r_WB <= lo_EX;
             if (enhilo_EX) begin
                 lo_WB <= lo_EX;
                 hi_WB <= hi_EX;
@@ -60,6 +58,10 @@ module execute(input clk,
             1: regdata_WB <= hi_WB;
             2: regdata_WB <= lo_WB;
             endcase
+
+            // set remaining signals
+            stall_EX <= 0;
+            pc_src_EX <= 0;
         end
     end
 endmodule

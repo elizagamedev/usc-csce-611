@@ -8,7 +8,7 @@ module regfile32x32(input clk, rst, we,
     reg [31:0] mem[30:0];
     assign reg30 = mem[30-1];
 
-    always @(posedge clk) begin
+    always @(posedge clk, posedge rst) begin
         if (rst) begin
             mem[1-1] <= 11;
             mem[2-1] <= 17;
@@ -16,7 +16,7 @@ module regfile32x32(input clk, rst, we,
             mem[10-1] <= 10;
             mem[11-1] <= 429496730;
         end else if (we) begin
-            if (writeaddr > 0 && writeaddr < 32)
+            if (writeaddr != 0)
                 mem[writeaddr-1] = writedata;
         end
     end
