@@ -42,7 +42,6 @@ module execute(input clk, input rst,
 
             regwrite_WB <= 0;
             regdest_WB <= 0;
-            regdata_WB <= 0;
         end else begin
             regdest_WB <= instruction_EX[15:11];
             regwrite_WB <= regwrite_EX;

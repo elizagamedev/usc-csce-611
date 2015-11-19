@@ -1,4 +1,6 @@
-module cpu(input clk, input rst, input [31:0] reg29, output [31:0] reg30);
+module cpu(input clk, input rst,
+           input [31:0] reg29,
+           output [31:0] reg30);
 
     // fetch inputs
     wire [9:0] PC_FETCH;

@@ -7,10 +7,10 @@ module fetch(input clk, rst, stall_EX,
     reg [31:0] mem [1023:0];
     initial $readmemh("test_program2.txt", mem, 0, 1023);
 
-    always @(posedge clk) begin
-        if (stall_EX || rst) begin
+    always @(posedge clk, posedge rst) begin
+        if (/*stall_EX || */rst) begin
             instruction_EX <= 32'b0;
-            PC_FETCH <= 0;
+            PC_FETCH <= 9'b0;
         end else begin
             // send the new instruction
             instruction_EX <= mem[PC_FETCH];

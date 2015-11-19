@@ -1,4 +1,4 @@
-module de2(input CLOCK_27,
+module de2(input CLOCK_50,
            input [3:0] KEY,
            input [17:0] SW,
            output [6:0] HEX0,
@@ -9,7 +9,7 @@ module de2(input CLOCK_27,
            output [6:0] HEX5,
            output [6:0] HEX6,
            output [6:0] HEX7,
-           output reg [17:0] LEDR);
+           output [17:0] LEDR);
 
     wire [31:0] reg30;
 
@@ -22,9 +22,11 @@ module de2(input CLOCK_27,
     sevenseg dig6(reg30[27:24], HEX6);
     sevenseg dig7(reg30[31:28], HEX7);
 
-    cpu cpu(.clk(CLOCK_27), .rst(~KEY[0]), .reg29(SW), .reg30(reg30));
+    cpu cpu(.clk(CLOCK_50), .rst(~KEY[0]), .reg29(SW), .reg30(reg30));
 
-    always @(*) begin
-        LEDR <= SW;
+    reg [31:0] timer;
+    assign LEDR = timer[31:14];
+    always @(posedge CLOCK_50) begin
+        timer <= timer + 1;
     end
 endmodule
