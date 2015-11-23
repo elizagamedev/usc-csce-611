@@ -1,4 +1,5 @@
 module execute(input clk, input rst,
+               input [9:0] PC_FETCH,
                input [31:0] instruction_EX,
                input [31:0] reg29,
                output reg stall_EX,
@@ -46,7 +47,7 @@ module execute(input clk, input rst,
             .addr(lo_EX[9:0]), .datain(readdata2_EX), .we(memwrite_EX),
             .dataout(memdata_EX));
 
-    regfile32x32 regs(.clk(clk), .rst(rst),
+    regfile32x32 regs(.clk(clk),
                       .readaddr1(readaddr1_EX), .readaddr2(readaddr2_EX),
                       .readdata1(readdata1_EX), .readdata2(readdata2_EX),
                       .we(regwrite_WB), .writeaddr(regdest_WB), .writedata(regdata_WB),
@@ -61,6 +62,8 @@ module execute(input clk, input rst,
         regsel_EX = 2'b00;
         regwrite_EX = 1'b1;
         memwrite_EX = 1'b0;
+        pc_src_EX = 2'b00;
+        stall_EX = 0;
 
         if (opcode == 6'b000000) begin
             // r-type
@@ -125,6 +128,12 @@ module execute(input clk, input rst,
                 op_EX = 4'b0000;
                 regsel_EX = 2;
             end
+            6'b001000: begin // jr
+                regwrite_EX = 0;
+                jtype_addr_EX = PC_FETCH + $signed(readdata1_EX);
+                pc_src_EX = 2;
+                stall_EX = 1;
+            end
             endcase
         end else begin
             readaddr1_EX = i_rs;
@@ -169,15 +178,57 @@ module execute(input clk, input rst,
                 b_EX = { 16'b0, i_imm };
                 shamt_EX = 16;
             end
+            6'b000100: begin // beq
+                regwrite_EX = 0;
+                readaddr1_EX = i_rs;
+                readaddr2_EX = i_rt;
+                if (readdata1_EX == readdata2_EX) begin
+                    branch_addr_EX = PC_FETCH + $signed(i_imm);
+                    pc_src_EX = 1;
+                    stall_EX = 1;
+                end
+            end
+            6'b000101: begin // bne
+                regwrite_EX = 0;
+                readaddr1_EX = i_rs;
+                readaddr2_EX = i_rt;
+                if (readdata1_EX != readdata2_EX) begin
+                    branch_addr_EX = PC_FETCH + $signed(i_imm);
+                    pc_src_EX = 1;
+                    stall_EX = 1;
+                end
+            end
+            6'b000001: begin // bgez
+                regwrite_EX = 0;
+                op_EX = 4'b1100;
+                readaddr1_EX = i_rs;
+                if ($signed(readdata1_EX) >= $signed(0)) begin
+                    branch_addr_EX = PC_FETCH + $signed(i_imm);
+                    pc_src_EX = 1;
+                    stall_EX = 1;
+                end
+            end
+            6'b000010: begin // j
+                regwrite_EX = 0;
+                jtype_addr_EX = instruction_EX[25:0];
+                pc_src_EX = 2;
+                stall_EX = 1;
+            end
+            6'b000011: begin // jal
+                jtype_addr_EX = instruction_EX[25:0];
+                pc_src_EX = 2;
+                regdest_EX = 31;
+                op_EX = 4'b0100;
+                a_EX = PC_FETCH;
+                b_EX = 0;
+                stall_EX = 1;
+            end
             endcase
         end
     end
 
     always @(posedge clk, posedge rst) begin
         if (rst) begin
-            stall_EX <= 0;
-            pc_src_EX <= 0;
-
             regwrite_WB <= 0;
             regdest_WB <= 0;
             memdata_WB <= 0;
