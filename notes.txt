@@ -1,2 +1,5 @@
 EP4CE115F29C7
-/usr/local/3rdparty/csce611/CPU_support_files/DE2_115_PS2_DEMO.qsf
+Assignments -> Import Assignments:
+    /usr/local/3rdparty/csce611/CPU_support_files/DE2_115_PS2_DEMO.qsf
+File -> New -> Synopsys Design Constraints File
+    create_clock -name {CLOCK_27} -period 37.037 [get_ports { CLOCK_27 }]

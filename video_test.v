@@ -7,7 +7,7 @@ module video_test (input CLOCK_50,
 				   output VGA_CLK,
 				   output VGA_HS,
 				   output VGA_VS);
-				   
+
 reg [5:0] row;
 reg [6:0] col;
 wire [24:0] data;
@@ -24,12 +24,12 @@ always @(posedge CLOCK_50) begin
 end
 
 display_if mydisplay (
-	 .clk(CLOCK_27),
+	 .clk(CLOCK_50),
 	 .rst(1'd0),
 	 .mem_waddr({row,col}),
 	 .mem_wdata(data),
 	 .mem_web(1'd1),
-	
+
 	 .VGA_R(VGA_R),
 	 .VGA_G(VGA_G),
 	 .VGA_B(VGA_B),
