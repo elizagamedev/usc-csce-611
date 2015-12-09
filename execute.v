@@ -5,7 +5,10 @@ module execute(input clk, input rst,
                output reg stall_EX,
                output reg [9:0] branch_addr_EX, jtype_addr_EX, reg_addr_EX,
                output reg [1:0] pc_src_EX,
-               output [31:0] reg30);
+               output [31:0] reg30,
+               output [12:0] display_waddr,
+               output [23:0] display_wdata,
+               output display_web);
 
     // generic
     wire [5:0] function_code = instruction_EX[5:0];
@@ -44,8 +47,11 @@ module execute(input clk, input rst,
     reg [31:0] memdata_WB;
 
     ram ram(.clk(clk),
-            .addr(lo_EX[9:0]), .datain(readdata2_EX), .we(memwrite_EX),
-            .dataout(memdata_EX));
+            .addr(lo_EX[15:0]), .datain(readdata2_EX), .we(memwrite_EX),
+            .dataout(memdata_EX),
+            .display_waddr(display_waddr),
+            .display_wdata(display_wdata),
+            .display_web(display_web));
 
     regfile32x32 regs(.clk(clk),
                       .readaddr1(readaddr1_EX), .readaddr2(readaddr2_EX),

@@ -5,7 +5,7 @@ module fetch(input clk, rst, stall_EX,
              output reg [9:0] PC_FETCH);
     // instruction memory
     reg [31:0] mem [1023:0];
-    initial $readmemh("test_program5.txt", mem, 0, 1023);
+    initial $readmemh("test_program6.txt", mem, 0, 1023);
 
     always @(posedge clk, posedge rst) begin
         if (rst) begin

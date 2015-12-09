@@ -1,6 +1,9 @@
 module cpu(input clk, input rst,
            input [31:0] reg29,
-           output [31:0] reg30);
+           output [31:0] reg30,
+           output [12:0] display_waddr,
+           output [23:0] display_wdata,
+           output display_web);
 
     // fetch inputs
     wire [9:0] PC_FETCH;
@@ -28,5 +31,8 @@ module cpu(input clk, input rst,
                     .jtype_addr_EX(jtype_addr_EX),
                     .reg_addr_EX(reg_addr_EX),
                     .pc_src_EX(pc_src_EX),
-                    .reg29(reg29), .reg30(reg30));
+                    .reg29(reg29), .reg30(reg30),
+                    .display_waddr(display_waddr),
+                    .display_wdata(display_wdata),
+                    .display_web(display_web));
 endmodule
